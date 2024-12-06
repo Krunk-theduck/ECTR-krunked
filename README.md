@@ -10,5 +10,4 @@ The money variable is suspected to be one of the following types:
   
 ---
   
-- The variable may be dynamic (its memory location changes with each boot) or stored in an unexpected format.
 - Memory scans for int32 values have yet to yield consistent results, suggesting either dynamic memory allocation or non-standard storage.
