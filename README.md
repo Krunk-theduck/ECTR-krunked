@@ -138,21 +138,170 @@ If you're trying to hack a WebAssembly-based game that runs on a regular website
 
 4. You can now use the memory hook to analyze or manipulate the WASM module as needed.
 
+
+
+
+
+Here’s a neatly formatted and revised version of your guide, optimized for a GitHub `README.md` file. I've corrected grammar, improved clarity, and added explanations where needed for readability and completeness.
+
+---
+# Part 2: The game  
+
+## Understanding WASM Variable Types
+
+WASM stores variables in **typed arrays**, similar to how your computer organizes data. Common types include:
+
+- **int8**, **int16**, **int32**, **int64** (signed integers)
+- **uint8**, **uint16**, **uint32**, **uint64** (unsigned integers, always positive)
+- **float32**, **float64** (floating-point numbers)
+
+For this guide, we'll be working with **unsigned 32-bit integers (uint32)**, but you can adjust the type depending on the variable you’re hacking.
+
+⚠️ **Important:** Games often store variables inconsistently. For example, even if a variable is always positive, it might be stored as an `int32` or `int64`. If you search with the wrong type, you might waste hours debugging, so be mindful of this.
+
+---
+
+## Step 1: Hooking WASM Memory
+
+To access the memory, you need to create a typed array based on your hook from Part 1. Here’s the function to do that for a `uint32` type:
+
+```javascript
+function hookWasmMem32() {
+  return new Uint32Array(window["wasmMemHook"].buffer);
+}
+```
+
+- **`Uint32Array`**: Specifies the memory type as unsigned 32-bit integers.
+- **`window["wasmMemHook"]`**: Refers to the memory hook exposed in global scope (from Part 1).
+
+Assign this to a variable for convenience:
+
+```javascript
+const wasmMemory = hookWasmMem32();
+```
+
+---
+
+## Step 2: Searching for the Right Address
+
+### Changing the Variable In-Game
+
+First, change the in-game value of the variable you’re trying to find (e.g., money). For example, let’s say your in-game money is now **1487**.
+
+---
+
+### Searching Memory for a Value
+
+Here’s a function to search through the WASM memory buffer for your value:
+
+```javascript
+function memIndexOf(val, memory) {
+  let foundIndexes = [];
+  for (let i = 0; i < memory.length; i++) {
+    if (memory[i] === val) {
+      foundIndexes.push(i);
+    }
+  }
+
+  if (foundIndexes.length > 0) {
+    console.log(`Found value ${val} at indexes: ${foundIndexes.join(', ')}`);
+  } else {
+    console.log(`Value ${val} not found in memory.`);
+  }
+}
+```
+
+Call this function with your value:
+
+```javascript
+memIndexOf(1487, wasmMemory);
+```
+
+This will return a list of potential memory addresses. For example:
+
+```
+Found value 1487 at indexes: 57004, 57501, 92559, 258886, ...
+```
+
+Save this list for later comparison.
+
+---
+
+### Narrowing Down the Address
+
+Repeat the process:
+
+1. Change the variable’s value again in the game (e.g., set money to **2816**).
+2. Search for the new value:
+
+   ```javascript
+   memIndexOf(2816, wasmMemory);
+   ```
+
+3. Save the new list of addresses.
+
+---
+
+### Comparing Lists to Find the Correct Address
+
+Now, compare the lists to find addresses common to both searches. Use this helper function:
+
+```javascript
+function compareLists(...lists) {
+  const commonSet = new Set(lists[0]);
+  for (let i = 1; i < lists.length; i++) {
+    const currentListSet = new Set(lists[i]);
+    for (let item of commonSet) {
+      if (!currentListSet.has(item)) {
+        commonSet.delete(item);
+      }
+    }
+  }
+  return [...commonSet];
+}
+```
+
+Example usage:
+
+```javascript
+const ls1 = [57004, 57501, 92559, 258886]; // Replace with your first list
+const ls2 = [284, 292, 57004, 92559];     // Replace with your second list
+
+const common = compareLists(ls1, ls2);
+console.log(common);
+```
+
+If done correctly, this will narrow down the list of addresses to just one or a few possibilities.
+
+---
+
+## Step 3: Changing the Value
+
+Once you’ve identified the correct address (e.g., **8645128**), modify the variable directly in the console:
+
+```javascript
+wasmMemory[8645128] = 987654;
+```
+
+Head back to the game, and voilà—your money (or other variable) has changed!
+
+---
+
+## Conclusion
+
+Congratulations! 🎉 You’ve successfully hooked onto WASM, found a variable's location, and modified it in real-time. This guide covered:
+
+1. Understanding WASM types.
+2. Hooking into memory.
+3. Searching and narrowing down addresses.
+4. Modifying the value.
+
+Feel free to experiment with other variable types or values. I hope this guide was helpful and that you’ve learned something valuable. Happy hacking! 👾
+
 ---
 
 ## Additional Notes
 
-- **Troubleshooting**:  
-  If the memory hook doesn’t appear, double-check your modifications and ensure the extension is loaded correctly.
-
-- **Exploration Tools**:  
-  Use tools like the browser's debugger or libraries such as [WebAssembly Studio](https://webassembly.studio/) to inspect and manipulate the memory.
-
 - **Learning Resources**:  
   - [MDN WebAssembly Guide](https://developer.mozilla.org/en-US/docs/WebAssembly)
   - [CETUS GitHub](https://github.com/Qwokka/Cetus)
-
----
-
-Happy hacking! 🚀
-```
