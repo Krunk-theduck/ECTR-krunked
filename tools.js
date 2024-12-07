@@ -1,24 +1,24 @@
 function hookWasmMem32() {
   return new Int32Array(window["wasmMemHook"].buffer);
 }
-let foundIndexes = [];
+
 const int32View = hookWasmMem32();
-function memIndexOf(val) {
-// Loop through the memory and find all indexes with the value 746
-for (let i = 0; i < int32View.length; i++) {
-  if (int32View[i] === val) {
+
+function memIndexOf(val, memory) {
+let foundIndexes = [];
+for (let i = 0; i < memory.length; i++) {
+  if (memory[i] === val) {
     foundIndexes.push(i);
   }
 }
 
-// Output the result
 if (foundIndexes.length > 0) {
   console.log(`Found value ${val} at indexes: ${foundIndexes.join(', ')}`);
 } else {
   console.log(`Value ${val} not found in memory.`);
 }
 }
-memIndexOf(448);
+memIndexOf(448, int32View);
 
 /* Found after searching for 746 while money = 746 */
 function compareLists(...lists) {
