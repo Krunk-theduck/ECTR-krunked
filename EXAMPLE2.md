@@ -1,6 +1,3 @@
-Here's a polished and formatted version of your guide, tailored for a `README.md` file:  
-
-```markdown
 # High Stakes: Finding the Vampire's Location in WebAssembly
 
 This guide walks you through locating the vampire's position in the game **High Stakes**, leveraging WebAssembly (Wasm) concepts. **Before diving in**, ensure you've already read and understood the [Extension Hacking Guide](link-to-guide) to familiarize yourself with **HEAP/BUFFER storage** and **variable types in WebAssembly**.
@@ -93,6 +90,3 @@ This will give you the exact memory address where the vampire’s position is st
 - **Best Practices**: Save and label your address lists clearly to avoid confusion during comparison.  
 
 Happy hunting!
-```
-
-This version organizes the content, adds headings for readability, and clarifies the steps with a clean structure. It also uses Markdown formatting suitable for GitHub or any Markdown-based documentation. Let me know if you need any other adjustments!
