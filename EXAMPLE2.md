@@ -1,6 +1,6 @@
 # High Stakes: Finding the Vampire's Location in WebAssembly
 
-This guide walks you through locating the vampire's position in the game **High Stakes**, leveraging WebAssembly (Wasm) concepts. **Before diving in**, ensure you've already read and understood the [Extension Hacking Guide](link-to-guide) to familiarize yourself with **HEAP/BUFFER storage** and **variable types in WebAssembly**.
+This guide walks you through locating the vampire's position in the game **High Stakes**, leveraging WebAssembly (Wasm) concepts. **Before diving in**, ensure you've already read and understood the [Extension Hacking Guide](https://github.com/Krunk-theduck/GameExtensionHacking/blob/main/README.md) to familiarize yourself with **HEAP/BUFFER storage** and **variable types in WebAssembly**.
 
 ---
 
