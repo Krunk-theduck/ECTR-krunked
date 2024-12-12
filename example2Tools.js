@@ -1,5 +1,7 @@
 /* Actual Tools */
 
+var _lists_ = [];
+
 function memIndexOf(val, memory) {
   const foundIndexes = [];
   for (let i = 0; i < memory.length; i++) {
@@ -38,7 +40,7 @@ function keyChecks(e) {
       lists.push(memIndexOf(i+1, Module["HEAP16"]));
     }
     
-    let guess = compareLists(...lists);
+    let guess = compareLists(..._lists_);
 
     if (guess.length === 1) {
       console.log("Found address: "+guess);
@@ -49,7 +51,7 @@ function keyChecks(e) {
 }
 
 function findCursor(i) {
-  let lists = [memIndexOf(i, Module["HEAP16"])]; // Stored as int16
+  _lists_.push(memIndexOf(i, Module["HEAP16"])); // Stored as int16
   document.addEventListener("keydown", keyChecks);
 }
 
