@@ -26,33 +26,16 @@ function compareLists(...lists) {
   return [...commonSet];
 }
 
-function keyChecks(e) {
-    if(e.key === "ArrowUp") {
-      _lists_.push(memIndexOf(i-3, Module["HEAP16"]));
-    }
-    if(e.key === "ArrowDown") {
-      _lists_.push(memIndexOf(i+3, Module["HEAP16"]));
-    }
-    if(e.key === "ArrowLeft") {
-      _lists_.push(memIndexOf(i-1, Module["HEAP16"]));
-    }
-    if(e.key === "ArrowRight") {
-      _lists_.push(memIndexOf(i+1, Module["HEAP16"]));
-    }
-    
-    let guess = compareLists(..._lists_);
+function findCursor(i) {
+  _lists_.push(memIndexOf(i, Module["HEAP16"])); // Stored as int16
+      let guess = compareLists(..._lists_);
 
     if (guess.length === 1) {
-      console.log("Found address: "+guess);
-      document.removeEventListener("keydown", keyChecks);
+      console.log("Found address (access below): "+guess);
+      console.log(`Module["HEAP16"][${guess}]`);
     } else {
       console.log("Keep going, still finding that index.");
     }
-}
-
-function findCursor(i) {
-  _lists_.push(memIndexOf(i, Module["HEAP16"])); // Stored as int16
-  document.addEventListener("keydown", keyChecks);
 }
 
 /* Just saving this for more work in the futuer */
