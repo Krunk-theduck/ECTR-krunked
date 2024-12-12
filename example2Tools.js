@@ -1,6 +1,7 @@
 /* Actual Tools */
 
 var _lists_ = [];
+var _fists_ = [];
 
 function memIndexOf(val, memory) {
   const foundIndexes = [];
@@ -33,6 +34,18 @@ function findCursor(i) {
     if (guess.length === 1) {
       console.log("Found address (access below): "+guess);
       console.log(`Module["HEAP16"][${guess}]`);
+    } else {
+      console.log("Keep going, still finding that index.");
+    }
+}
+
+function findFlip(i) { // parameter should be 1 or 0
+  _fists_.push(memIndexOf(i, Module["HEAP8"])); // Stored as int8 i assume
+      let guess = compareLists(..._fists_);
+
+    if (guess.length === 1) {
+      console.log("Found address (access below): "+guess);
+      console.log(`Module["HEAP8"][${guess}]`);
     } else {
       console.log("Keep going, still finding that index.");
     }
