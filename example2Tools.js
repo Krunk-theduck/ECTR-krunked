@@ -28,16 +28,16 @@ function compareLists(...lists) {
 
 function keyChecks(e) {
     if(e.key === "ArrowUp") {
-      lists.push(memIndexOf(i-3, Module["HEAP16"]));
+      _lists_.push(memIndexOf(i-3, Module["HEAP16"]));
     }
     if(e.key === "ArrowDown") {
-      lists.push(memIndexOf(i+3, Module["HEAP16"]));
+      _lists_.push(memIndexOf(i+3, Module["HEAP16"]));
     }
     if(e.key === "ArrowLeft") {
-      lists.push(memIndexOf(i-1, Module["HEAP16"]));
+      _lists_.push(memIndexOf(i-1, Module["HEAP16"]));
     }
     if(e.key === "ArrowRight") {
-      lists.push(memIndexOf(i+1, Module["HEAP16"]));
+      _lists_.push(memIndexOf(i+1, Module["HEAP16"]));
     }
     
     let guess = compareLists(..._lists_);
