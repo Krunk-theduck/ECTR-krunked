@@ -1,3 +1,58 @@
+/* Actual Tools */
+
+function memIndexOf(val, memory) {
+  const foundIndexes = [];
+  for (let i = 0; i < memory.length; i++) {
+    if (memory[i] === val) {
+      foundIndexes.push(i);
+    }
+  }
+  return foundIndexes;
+}
+
+function compareLists(...lists) {
+  if (lists.length === 0) return [];
+  const commonSet = new Set(lists[0]);
+  for (let i = 1; i < lists.length; i++) {
+    const currentSet = new Set(lists[i]);
+    for (const item of commonSet) {
+      if (!currentSet.has(item)) {
+        commonSet.delete(item);
+      }
+    }
+  }
+  return [...commonSet];
+}
+
+function keyChecks(e) {
+    if(e.key === "ArrowUp") {
+      lists.push(memIndexOf(i-3, Module["HEAP16"]));
+    }
+    if(e.key === "ArrowDown") {
+      lists.push(memIndexOf(i+3, Module["HEAP16"]));
+    }
+    if(e.key === "ArrowLeft") {
+      lists.push(memIndexOf(i-1, Module["HEAP16"]));
+    }
+    if(e.key === "ArrowRight") {
+      lists.push(memIndexOf(i+1, Module["HEAP16"]));
+    }
+    
+    let guess = compareLists(...lists);
+
+    if (guess.length === 1) {
+      console.log("Found address: "+guess);
+      document.removeEventListener("keydown", keyChecks);
+    } else {
+      console.log("Keep going, still finding that index.");
+    }
+}
+
+function findCursor(i) {
+  let lists = [memIndexOf(i, Module["HEAP16"])]; // Stored as int16
+  document.addEventListener("keydown", keyChecks);
+}
+
 /* Just saving this for more work in the futuer */
 
 function createBlueBoxOverlay(canvas, index) {
